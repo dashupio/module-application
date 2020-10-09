@@ -1,5 +1,25 @@
 <page-application-view>
-  <div>
-    SUP
-  </div>
+  <dashup-view view="view" type="page" struct="dashboard" { ...getProps() } />
+
+  <script>
+
+    export default class PageApplicationView {
+
+      /**
+       * get props
+       */
+      getProps() {
+        // get props
+        const props = { ...(this.props) };
+
+        // delete unwanted
+        delete props.view;
+        delete props.type;
+        delete props.struct;
+
+        // return fixed
+        return props;
+      }
+    }
+  </script>
 </page-application-view>

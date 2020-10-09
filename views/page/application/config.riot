@@ -42,9 +42,6 @@
        * on before mount
        */
       onBeforeMount(...args) {
-        // on before mount
-        super.onBeforeMount(...args);
-
         // data acls
         this.acls = this.props.page.get('data.acls') || [];
 
@@ -60,6 +57,9 @@
           maxConcurrent : 1
         });
 
+        // load key
+        this.loadKey();
+
         // set force update
         this.scheduleUpdate = () => {
           // schedule
@@ -68,59 +68,6 @@
             return this.props.data('acls', this.acls);
           });
         };
-      }
-
-      /**
-       * on mounted
-       */
-      onMounted(...args) {
-        // run super
-        super.onMounted(...args);
-
-        // check frontend
-        if (!this.eden.frontend) return;
-
-        // init
-        this.init();
-      }
-
-      /**
-       * init
-       */
-      async init() {
-        // loading
-        this.loading('key', true);
-
-        // fetch grid
-        const res = await fetch(`/app/application/${this.props.page.get('_id')}`, {
-          method : 'POST',
-        });
-
-        // update
-        this.update(await res.json());
-
-        // loading
-        this.loading('key', false);
-      }
-
-      /**
-       * on settings
-       *
-       * @param {Event} e
-       */
-      show() {
-        // show modal
-        this.refs.config.show();
-      }
-
-      /**
-       * on settings
-       *
-       * @param {Event} e
-       */
-      hide() {
-        // show modal
-        this.refs.config.hide();
       }
 
       /**
@@ -138,6 +85,23 @@
 
           // return no change
           return 0;
+        });
+      }
+
+      /**
+       * load application key
+       */
+      async loadKey() {
+        console.log('get key');
+        // call key
+        const key = await this.props.page.action('key', this.props.page.get('_id'));
+
+        console.log(key);
+        console.log('got key', key);
+
+        // update key
+        this.update({
+          key,
         });
       }
 

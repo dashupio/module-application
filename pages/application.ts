@@ -6,6 +6,18 @@ import { Struct } from '@dashup/module';
  * build address helper
  */
 export default class ApplicationPage extends Struct {
+  /**
+   * constructor
+   *
+   * @param args 
+   */
+  constructor(...args) {
+    // run super
+    super(...args);
+
+    // sanitise
+    this.keyAction = this.keyAction.bind(this);
+  }
 
   /**
    * returns page type
@@ -34,9 +46,11 @@ export default class ApplicationPage extends Struct {
   /**
    * returns page data
    */
-  get data() {
+  get actions() {
     // return page data
-    return {};
+    return {
+      key : this.keyAction,
+    };
   }
 
   /**
@@ -64,5 +78,18 @@ export default class ApplicationPage extends Struct {
   get description() {
     // return description string
     return 'Page Descripton';
+  }
+
+  /**
+   * application key
+   *
+   * @param args 
+   */
+  async keyAction(opts, page) {
+    // load key
+    const key = await this.dashup.connection.rpc(opts, 'page.key', page);
+
+    // return key
+    return key;
   }
 }
