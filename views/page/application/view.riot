@@ -1,25 +1,29 @@
 <page-application-view>
-  <dashup-view view="view" type="page" struct="dashboard" { ...getProps() } />
+  <dashup-view view="dashboard" type="page" struct="dashboard" { ...getProps() } />
 
   <script>
 
+    // export default
     export default class PageApplicationView {
 
       /**
        * get props
        */
       getProps() {
-        // get props
-        const props = { ...(this.props) };
+        // clone
+        const newProps = { ...(this.props) };
 
-        // delete unwanted
-        delete props.view;
-        delete props.type;
-        delete props.struct;
+        // delete
+        delete newProps.type;
+        delete newProps.item;
+        delete newProps.view;
+        delete newProps.class;
+        delete newProps.struct;
 
-        // return fixed
-        return props;
+        // return
+        return newProps;
       }
+
     }
   </script>
 </page-application-view>

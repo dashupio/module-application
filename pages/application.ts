@@ -32,7 +32,7 @@ export default class ApplicationPage extends Struct {
    */
   get icon() {
     // return page type label
-    return 'fa fa-users';
+    return 'fa fa-server';
   }
 
   /**
@@ -69,7 +69,7 @@ export default class ApplicationPage extends Struct {
    */
   get categories() {
     // return array of categories
-    return ['frontend'];
+    return ['API'];
   }
 
   /**
@@ -77,7 +77,7 @@ export default class ApplicationPage extends Struct {
    */
   get description() {
     // return description string
-    return 'Page Descripton';
+    return 'Application with specific access';
   }
 
   /**
