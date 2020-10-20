@@ -92,12 +92,8 @@
        * load application key
        */
       async loadKey() {
-        console.log('get key');
         // call key
         const key = await this.props.page.action('key', this.props.page.get('_id'));
-
-        console.log(key);
-        console.log('got key', key);
 
         // update key
         this.update({
