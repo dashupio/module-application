@@ -54,6 +54,16 @@ export default class ApplicationPage extends Struct {
   }
 
   /**
+   * returns page data
+   */
+  get data() {
+    // return object
+    return {
+    //  image : 'https://static.dashup.io/public/assets/examples/board.png',
+    };
+  }
+
+  /**
    * returns object of views
    */
   get views() {
@@ -77,7 +87,7 @@ export default class ApplicationPage extends Struct {
    */
   get description() {
     // return description string
-    return 'Application with specific access';
+    return 'Application API page';
   }
 
   /**
