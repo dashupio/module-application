@@ -69,7 +69,7 @@ export default class ApplicationPage extends Struct {
   get views() {
     // return object of views
     return {
-      view   : 'page/application/view',
+      view   : 'page/application',
       config : 'page/application/config',
     };
   }
