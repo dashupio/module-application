@@ -21,7 +21,7 @@ const ApplicationPage = (props = {}) => {
 
   // return jsx
   return (
-    <View { ...getProps() } type="page" view="dashboard" struct="dashboard" />
+    <View { ...getProps() } type="page" view="view" struct="dashboard" />
   );
 };
 

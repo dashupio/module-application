@@ -1,12 +1,11 @@
 
 // import react
-import { Query } from '@dashup/ui';
 import React, { useState, useEffect } from 'react';
 
 // create page model config
 const PageApplicationConfig = (props = {}) => {
   // state
-  let [acls, setAcls] = useState([]);
+  let [acls, setAcls] = useState(props.page.get('data.acls') || []);
   const [key, setKey] = useState(null);
 
   // alls
@@ -30,6 +29,15 @@ const PageApplicationConfig = (props = {}) => {
     // set key
     props.page.action('key', props.page.get('_id')).then(setKey);
   }, [props.page && props.page.get('_id')]);
+
+  // on acls
+  const onAcls = async (newAcls) => {
+    // set
+    await props.setData('acls', newAcls);
+
+    // set
+    setAcls([...newAcls]);
+  };
 
   // has acl
   const hasAcl = (page, type) => {
@@ -64,7 +72,7 @@ const PageApplicationConfig = (props = {}) => {
     if (parent) addAcl(parent, type, true);
 
     // update
-    setAcls([...acls]);
+    onAcls([...acls]);
   };
 
   // remove acl
@@ -82,7 +90,7 @@ const PageApplicationConfig = (props = {}) => {
     subs.forEach((sub) => removeAcl(sub, type));
 
     // update
-    setAcls([...acls]);
+    onAcls([...acls]);
   }
 
   // has all
@@ -119,7 +127,7 @@ const PageApplicationConfig = (props = {}) => {
       // add pages
       Array.from(props.dashup.get('pages').values()).find((page) => {
         // return has
-        if (!hasAcl(`${page.get('_id')}.${type}`)) {
+        if (!hasAcl(page, type)) {
           // check view
           acls.push(`${page.get('_id')}.${type}`);
         }
@@ -127,7 +135,7 @@ const PageApplicationConfig = (props = {}) => {
     }
 
     // update
-    setAcls([...acls]);
+    onAcls([...acls]);
   };
 
   // return jsx
@@ -157,7 +165,7 @@ const PageApplicationConfig = (props = {}) => {
                   <button
                     key={ `permission-${permission.name}` }
                     onClick={ (e) => onAll(e, permission.name) }
-                    className={ `btn ms-2${hasAll(permission.name) ? 'btn-success' : (hasAny(permission.name) ? 'btn-warning' : 'btn-secondary')}` }
+                    className={ `btn ms-2 ${hasAll(permission.name) ? 'btn-success' : (hasAny(permission.name) ? 'btn-warning' : 'btn-secondary')}` }
                     >
                     <i className={ permission.icon } />
                   </button>
@@ -167,7 +175,8 @@ const PageApplicationConfig = (props = {}) => {
           </div>
         </div>
         
-        OTHER PERMISSIONS TODO
+        TODO
+        PERMISSIONS
       </div>
     </>
   )
