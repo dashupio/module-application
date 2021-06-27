@@ -3,7 +3,7 @@ import React from 'react';
 import { View } from '@dashup/ui';
 
 // application page
-const ApplicationPage = (props = {}) => {
+const PageApplication = (props = {}) => {
 
   // get props
   const getProps = () => {
@@ -26,4 +26,4 @@ const ApplicationPage = (props = {}) => {
 };
 
 // export default
-export default ApplicationPage;
+export default PageApplication;

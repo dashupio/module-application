@@ -1,5 +1,6 @@
 
 // import react
+import { Permission } from '@dashup/ui';
 import React, { useState, useEffect } from 'react';
 
 // create page model config
@@ -29,6 +30,35 @@ const PageApplicationConfig = (props = {}) => {
     // set key
     props.page.action('key', props.page.get('_id')).then(setKey);
   }, [props.page && props.page.get('_id')]);
+
+  // get pages
+  const getPages = (section, i) => {
+    // return pages
+    return Array.from(props.dashup.get('pages').values()).filter((p) => {
+      // return section
+      return p && !p.get('archived') && (p.get('parent') || 'root') === 'root' && ((i === 0 && !p.get('section')) || p.get('section') === section.get('_id'));
+    }).sort((a, b) => {
+      // get order
+      if (a.get('order') > b.get('order')) return 1;
+      if (a.get('order') < b.get('order')) return -1;
+
+      // return no change
+      return 0;
+    });
+  };
+
+  // get sections
+  const getSections = () => {
+    // return sections
+    return Array.from(props.dashup.get('sections').values()).filter((s) => s && !s.get('archived')).sort((a, b) => {
+      // get order
+      if (a.get('order') > b.get('order')) return 1;
+      if (a.get('order') < b.get('order')) return -1;
+
+      // return no change
+      return 0;
+    });
+  };
 
   // on acls
   const onAcls = async (newAcls) => {
@@ -174,9 +204,28 @@ const PageApplicationConfig = (props = {}) => {
             </div>
           </div>
         </div>
-        
-        TODO
-        PERMISSIONS
+
+        { getSections().map((section, i) => {
+          // return jsx
+          return (
+            <React.Fragment key={ `section-${section.get('_id')}` }>
+              { i !== 0 && <hr /> }
+              { getPages(section, i).map((page, a) => {
+                // return jsx
+                return (
+                  <Permission
+                    key={ `page-${page.get('_id')}` }
+                    page={ page }
+                    dashup={ props.dashup }
+                    hasAcl={ hasAcl }
+                    addAcl={ addAcl }
+                    removeAcl={ removeAcl }
+                  />
+                );
+              }) }
+            </React.Fragment>
+          );
+        }) }
       </div>
     </>
   )
