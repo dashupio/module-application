@@ -3,6 +3,22 @@
 import { Permission } from '@dashup/ui';
 import React, { useState, useEffect } from 'react';
 
+// global timer
+let timer;
+
+// global debounce
+const debounce = (func, timeout = 1000) => {
+
+  // return debounced
+  return (...args) => {
+    // clear timeout previously
+    clearTimeout(timer);
+
+    // create new timeout
+    timer = setTimeout(() => func(...args), timeout);
+  };
+};
+
 // create page model config
 const PageApplicationConfig = (props = {}) => {
   // state
@@ -63,7 +79,7 @@ const PageApplicationConfig = (props = {}) => {
   // on acls
   const onAcls = async (newAcls) => {
     // set
-    await props.setData('acls', newAcls);
+    await debounce(props.setData, 500)('acls', newAcls);
 
     // set
     setAcls([...newAcls]);
