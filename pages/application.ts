@@ -32,7 +32,7 @@ export default class ApplicationPage extends Struct {
    */
   get icon() {
     // return page type label
-    return 'fa fa-server';
+    return 'fad fa-server text-primary';
   }
 
   /**
@@ -40,7 +40,7 @@ export default class ApplicationPage extends Struct {
    */
   get title() {
     // return page type label
-    return 'Application Page';
+    return 'Application';
   }
 
   /**
@@ -87,7 +87,7 @@ export default class ApplicationPage extends Struct {
    */
   get description() {
     // return description string
-    return 'Application API page';
+    return 'Connect external apps to Dashup using API';
   }
 
   /**
