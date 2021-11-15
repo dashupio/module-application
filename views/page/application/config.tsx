@@ -1,6 +1,6 @@
 
 // import react
-import { Permission } from '@dashup/ui';
+import { Box, Divider, TextField, InputAdornment, IconButton, Icon, ToolTip, Permission } from '@dashup/ui';
 import React, { useState, useEffect } from 'react';
 
 // global timer
@@ -188,61 +188,81 @@ const PageApplicationConfig = (props = {}) => {
   return (
     <>
       { !!key && (
-        <div className="mb-3">
-          <label className="form-label">
-            API Key
-          </label>
-          <div className="mb-3">
-            <input className="form-control" readOnly name="key" value={ key } />
-          </div>
-        </div>
+        <TextField
+          label="API Key"
+          value={ key }
+          fullWidth
+          
+          InputProps={ {
+            readOnly : true,
+          } }
+        />
       ) }
       
-      <hr />
-
-      <div className="card card-body">
-        <div className="card card-permission bg-transparent shadow-none mb-2">
-          <div className="card-body d-flex align-items-center">
-
-            <div className="ms-auto">
+      <Box my={ 2 }>
+        <Divider />
+      </Box>
+    
+      <TextField
+        label={ '' }
+        value="All Page Permissions"
+        fullWidth
+        InputProps={ {
+          readOnly       : true,
+          startAdornment : (
+            <InputAdornment position="start">
+              <IconButton>
+                <Icon type="fas" icon="cog" fixedWidth />
+              </IconButton>
+            </InputAdornment>
+          ),
+          endAdornment : (
+            <>
               { allPermissions.map((permission, i) => {
                 // return jsx
                 return (
-                  <button
-                    key={ `permission-${permission.name}` }
-                    onClick={ (e) => onAll(e, permission.name) }
-                    className={ `btn ms-2 ${hasAll(permission.name) ? 'btn-success' : (hasAny(permission.name) ? 'btn-warning' : 'btn-secondary')}` }
-                    >
-                    <i className={ permission.icon } />
-                  </button>
+                  <ToolTip key={ `permission-${permission.name}` } title={ permission.title }>
+                    <InputAdornment position="end">
+                      <IconButton sx={ {
+                        color           : (hasAll(permission.name) || hasAny(permission.name)) && theme.palette.getContrastText(hasAny(permission.name) ? theme.palette.success.main : theme.palette.warning.main),
+                        backgroundColor : hasAll(permission.name) ? 'success.main' : (hasAny(permission.name) ? 'warning.main' : undefined),
+                      } } onClick={ (e) => onAll(e, permission.name) }>
+                        <Icon icon={ permission.icon } fixedWidth />
+                      </IconButton>
+                    </InputAdornment>
+                  </ToolTip>
                 );
               }) }
-            </div>
-          </div>
-        </div>
+            </>
+          )
+        } }
+      />
 
-        { getSections().map((section, i) => {
-          // return jsx
-          return (
-            <React.Fragment key={ `section-${section.get('_id')}` }>
-              { i !== 0 && <hr /> }
-              { getPages(section, i).map((page, a) => {
-                // return jsx
-                return (
-                  <Permission
-                    key={ `page-${page.get('_id')}` }
-                    page={ page }
-                    dashup={ props.dashup }
-                    hasAcl={ hasAcl }
-                    addAcl={ addAcl }
-                    removeAcl={ removeAcl }
-                  />
-                );
-              }) }
-            </React.Fragment>
-          );
-        }) }
-      </div>
+      { getSections().map((section, i) => {
+        // return jsx
+        return (
+          <React.Fragment key={ `section-${section.get('_id')}` }>
+            { i !== 0 && (i + 1) !== getSections().length && (
+              <Box my={ 2 }>
+                <Divider />
+              </Box>
+            ) }
+            { getPages(section, i).map((page, a) => {
+              // return jsx
+              return (
+                <Permission
+                  key={ `page-${page.get('_id')}` }
+                  page={ page }
+                  dashup={ props.dashup }
+                  hasAcl={ hasAcl }
+                  addAcl={ addAcl }
+                  removeAcl={ removeAcl }
+                />
+              );
+            }) }
+          </React.Fragment>
+        );
+      }) }
     </>
   )
 };
