@@ -1,6 +1,6 @@
 
 // import react
-import { Box, Divider, TextField, InputAdornment, IconButton, Icon, ToolTip, Permission } from '@dashup/ui';
+import { Box, Divider, TextField, InputAdornment, IconButton, Icon, Tooltip, Permission } from '@dashup/ui';
 import React, { useState, useEffect } from 'react';
 
 // global timer
@@ -221,7 +221,7 @@ const PageApplicationConfig = (props = {}) => {
               { allPermissions.map((permission, i) => {
                 // return jsx
                 return (
-                  <ToolTip key={ `permission-${permission.name}` } title={ permission.title }>
+                  <Tooltip key={ `permission-${permission.name}` } title={ permission.title }>
                     <InputAdornment position="end">
                       <IconButton sx={ {
                         color           : (hasAll(permission.name) || hasAny(permission.name)) && theme.palette.getContrastText(hasAny(permission.name) ? theme.palette.success.main : theme.palette.warning.main),
@@ -230,7 +230,7 @@ const PageApplicationConfig = (props = {}) => {
                         <Icon icon={ permission.icon } fixedWidth />
                       </IconButton>
                     </InputAdornment>
-                  </ToolTip>
+                  </Tooltip>
                 );
               }) }
             </>
